@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invertí en Duplex La Docta | Oportunidad de Inversión Inmobiliaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { dark: '#0f172a', gold: '#d97706', accent: '#2563eb' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glass-card-active { background: rgba(30, 41, 59, 0.95); border: 2px solid #2563eb; box-shadow: 0 0 25px rgba(37, 99, 235, 0.25); }
+        .progress-gradient { background: linear-gradient(90deg, #2563eb 0%, #10b981 100%); }
+        .progress-obra-gradient { background: linear-gradient(90deg, #f59e0b 0%, #10b981 100%); }
+        .hero-banner { background-size: cover; background-position: center; transition: background-image 0.5s ease-in-out; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 p-2.5 rounded-xl text-white font-black text-xl tracking-wider">
+                    <i class="fa-solid fa-building-circle-check"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight text-white block leading-none">INVERSIÓN<span class="text-blue-500">DOCTA</span></span>
+                    <span class="text-xs text-slate-400 font-medium tracking-wide uppercase">Real Estate Crowdfunding</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSupervisorModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-4 py-2.5 rounded-xl transition text-xs border border-slate-700 flex items-center gap-2">
+                    <i class="fa-solid fa-user-shield text-amber-400"></i> <span id="navSupervisorText">Panel Supervisor</span>
+                </button>
+                <a href="#invest-section" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl transition duration-200 shadow-lg shadow-blue-500/20 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line"></i> Invertir Ahora
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="heroSection" class="relative py-12 md:py-20 overflow-hidden hero-banner border-b border-slate-800">
+            <div class="absolute inset-0 bg-slate-950/85 backdrop-blur-[2px]"></div>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold tracking-wide uppercase">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Proyecto Abierto a Inversores
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                            Desarrollo Residencial <br/>
+                            <span id="display-titulo" class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-emerald-400 to-teal-300">Cargando...</span>
+                        </h1>
+                        <p class="text-slate-300 text-base sm:text-lg max-w-2xl font-normal leading-relaxed">
+                            Participá en el financiamiento y construcción del proyecto en La Docta Urbanización Inteligente. Alta rentabilidad proyectada en USD y máxima seguridad jurídica.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 pt-4">
+                            <div class="glass-card p-4 rounded-2xl">
+                                <p class="text-xs text-slate-400 font-medium uppercase">Monto Total Obra</p>
+                                <p class="text-2xl font-bold text-white mt-1">$<span id="display-montoTotal">0</span> <span class="text-xs text-slate-400 font-normal">USD</span></p>
+                            </div>
+                            <div class="glass-card p-4 rounded-2xl">
+                                <p class="text-xs text-slate-400 font-medium uppercase">Tasa Retorno (TIR)</p>
+                                <p class="text-2xl font-bold text-blue-400 mt-1"><span id="display-tasaRetorno">-</span> <span class="text-xs text-slate-400 font-normal">USD</span></p>
+                            </div>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl space-y-4">
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Avance Financiero (Inversión)</span>
+                                    <h3 class="text-2xl font-extrabold text-white mt-0.5">$<span id="display-montoRecaudado">0</span> <span class="text-sm text-slate-400 font-normal">/ $<span id="display-montoTotal2">0</span> USD</span></h3>
+                                </div>
+                                <span class="text-2xl font-black text-emerald-400"><span id="display-porcentajeInversion">0</span>%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-4 p-0.5 border border-slate-700">
+                                <div id="display-progressBarInversion" class="progress-gradient h-3 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-slate-400 font-medium pt-1">
+                                <span><i class="fa-solid fa-users text-blue-400"></i> <span id="display-cantInversores">0</span> Inversores sumados</span>
+                                <span><i class="fa-solid fa-clock text-amber-400"></i> Quedan $<span id="display-cupoRestante">0</span> USD en cupo</span>
+                            </div>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl space-y-4 border-l-4 border-l-amber-500">
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <span class="text-xs text-amber-400 uppercase tracking-wider font-semibold">Avance Físico de Obra</span>
+                                    <p id="display-obraStatusText" class="text-xs text-slate-400 font-normal mt-0.5">Cargando estado...</p>
+                                </div>
+                                <span class="text-2xl font-black text-amber-400"><span id="display-porcentajeObra">0</span>%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-4 p-0.5 border border-slate-700">
+                                <div id="display-progressBarObra" class="progress-obra-gradient h-3 rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5" id="invest-section">
+                        <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-700/60 relative">
+                            <div class="absolute -top-3 right-6 bg-emerald-500 text-slate-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">Registro Directo</div>
+                            <h2 class="text-2xl font-bold text-white mb-2">Sumate como Inversor</h2>
+                            <p class="text-slate-400 text-sm mb-6">Seleccioná la unidad en la que deseas participar y completá tus datos.</p>
+                            <form id="investmentForm" onsubmit="submitForm(event)" class="space-y-5">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">1. Unidad de interés</label>
+                                    <button type="button" id="btn-Completo" class="unit-btn glass-card-active w-full p-4 rounded-xl text-center cursor-pointer transition border border-blue-500">
+                                        <div class="text-xs text-slate-400 font-medium uppercase">Proyecto</div>
+                                        <div class="text-base font-bold text-white">Duplex Completo</div>
+                                        <div class="text-xs text-emerald-400 font-semibold mt-1" id="lbl-unitCompleto">$280k USD Total</div>
+                                    </button>
+                                    <input type="hidden" id="selected_unit" name="selected_unit" value="Duplex Completo" required />
+                                </div>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-300 mb-1">Nombre Completo</label>
+                                        <input type="text" id="nombre" required placeholder="Ej. Juan Pérez" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-xs font-medium text-slate-300 mb-1">Email</label>
+                                            <input type="email" id="email" required placeholder="tu@email.com" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-medium text-slate-300 mb-1">Teléfono / WhatsApp</label>
+                                            <input type="tel" id="telefono" required placeholder="+54 9 351..." class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-300 mb-1">Monto de Inversión Proyectado (USD)</label>
+                                        <select id="monto_inversion" required class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                                            <option value="10000">Desde $10.000 USD (Ticket Mínimo)</option>
+                                            <option value="35000">$35.000 USD</option>
+                                            <option value="70000">$70.000 USD</option>
+                                            <option value="140000">$140.000 USD (50% del Proyecto)</option>
+                                            <option value="280000" selected>$280.000 USD (Duplex Completo)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-300 mb-1">Comentarios o Consultas (Opcional)</label>
+                                        <textarea id="comentarios" rows="2" placeholder="Ej. Quisiera coordinar una visita a la obra..." class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500 resize-none"></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-bold py-3.5 px-6 rounded-xl transition duration-200 shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 text-base">
+                                    <span>Confirmar e Invertir</span> <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                                <div id="statusMessage" class="hidden text-center text-sm p-3 rounded-xl font-medium"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-slate-900/80 border-t border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold uppercase mb-2">
+                            <i class="fa-solid fa-camera"></i> Monitoreo Transparente
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-white">Galería de Avance de Obra</h2>
+                        <p class="text-slate-400 text-sm mt-1">Imágenes actualizadas periódicamente para los inversores.</p>
+                    </div>
+                </div>
+                <div id="galleryContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="supervisorModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-2xl rounded-3xl p-6 sm:p-8 border border-slate-700 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleSupervisorModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div id="supervisorLoginView" class="space-y-6">
+                <div class="text-center">
+                    <div class="inline-flex p-3 bg-amber-500/10 text-amber-400 rounded-2xl mb-3"><i class="fa-solid fa-lock text-2xl"></i></div>
+                    <h3 class="text-2xl font-bold text-white">Ingreso Supervisor</h3>
+                    <p class="text-xs text-slate-400 mt-1">Ingresá la clave para modificar las variables en la planilla de Google.</p>
+                </div>
+                <form onsubmit="loginSupervisor(event)" class="space-y-4 max-w-sm mx-auto">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Contraseña</label>
+                        <input type="password" id="supervisorPass" required placeholder="Ingrese contraseña" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-amber-500">
+                    </div>
+                    <p id="loginError" class="text-xs text-rose-400 hidden text-center">Contraseña incorrecta.</p>
+                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition text-sm">Ingresar al Panel</button>
+                </form>
+            </div>
+            <div id="supervisorPanelView" class="hidden space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-sliders text-amber-400"></i> Control de Variables</h3>
+                        <p class="text-xs text-slate-400">Los cambios impactarán en la planilla y en la web en vivo.</p>
+                    </div>
+                    <button onclick="logoutSupervisor()" class="text-xs text-rose-400 hover:underline">Cerrar Sesión</button>
+                </div>
+                <form onsubmit="saveSupervisorChanges(event)" class="space-y-5">
+                    <div class="space-y-3">
+                        <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider">1. Portada y Nombre</h4>
+                        <div class="grid grid-cols-1 gap-3">
+                            <div><label class="block text-xs text-slate-300 mb-1">Nombre</label><input type="text" id="cfg-titulo" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm"></div>
+                            <div><label class="block text-xs text-slate-300 mb-1">URL Foto Portada</label><input type="url" id="cfg-fotoPortada" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider">2. Montos y Avances</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div><label class="block text-xs text-slate-300 mb-1">Monto Total USD</label><input type="number" id="cfg-montoTotal" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm"></div>
+                            <div><label class="block text-xs text-slate-300 mb-1">Tasa Retorno</label><input type="text" id="cfg-tasaRetorno" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm"></div>
+                            <div><label class="block text-xs text-slate-300 mb-1">Monto Recaudado USD</label><input type="number" id="cfg-montoRecaudado" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm"></div>
+                            <div><label class="block text-xs text-slate-300 mb-1">Cant. Inversores</label><input type="number" id="cfg-cantInversores" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm"></div>
+                            <div class="sm:col-span-2 bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                                <label class="block text-xs font-semibold text-amber-400 mb-1">% Avance de Obra</label>
+                                <input type="number" id="cfg-porcentajeObra" min="0" max="100" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm disabled:opacity-50">
+                                <p id="cfg-obraHelpText" class="text-[11px] text-slate-400 mt-1"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider">3. Fotos de Avance</h4>
+                        <div class="space-y-2">
+                            <input type="url" id="cfg-fotoAvance1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" placeholder="URL Foto 1">
+                            <input type="url" id="cfg-fotoAvance2" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" placeholder="URL Foto 2">
+                            <input type="url" id="cfg-fotoAvance3" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-sm" placeholder="URL Foto 3">
+                        </div>
+                    </div>
+                    <button type="submit" id="saveBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar en Google Sheets
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
+        const GOOGLE_SHEETS_URL = "PEGAR_AQUI_TU_URL_DE_GOOGLE_APPS_SCRIPT";
+
+        let state = {};
+        let isSupervisorLoggedIn = false;
+
+        function formatUSD(val) { return Number(val || 0).toLocaleString('es-AR'); }
+
+        async function loadDataFromSheets() {
+            try {
+                const response = await fetch(GOOGLE_SHEETS_URL);
+                const data = await response.json();
+                
+                state = {
+                    titulo: data.titulo || "Duplex Completo",
+                    fotoPortada: data.fotoPortada || "",
+                    montoTotal: Number(data.montoTotal || 280000),
+                    tasaRetorno: data.tasaRetorno || "14% - 18%",
+                    montoRecaudado: Number(data.montoRecaudado || 0),
+                    porcentajeObra: Number(data.porcentajeObra || 0),
+                    cantInversores: Number(data.cantInversores || 0),
+                    fotosAvance: [
+                        { url: data.fotoAvance1, titulo: "Fundaciones y Cimiento", fecha: "Etapa 1" },
+                        { url: data.fotoAvance2, titulo: "Estructura de Hormigón", fecha: "Etapa 2" },
+                        { url: data.fotoAvance3, titulo: "Muro de Fachada", fecha: "Etapa 3" }
+                    ]
+                };
+                renderUI();
+            } catch (err) {
+                console.error("Error al cargar datos de Sheets:", err);
+            }
+        }
+
+        function renderUI() {
+            const pctInversionCalculado = state.montoTotal > 0 ? (state.montoRecaudado / state.montoTotal) * 100 : 0;
+            const porcentajeInversionDisplay = Math.min(100, pctInversionCalculado).toFixed(0);
+
+            const metaAlcanzada = state.montoRecaudado >= 280000;
+            const porcentajeObraReal = metaAlcanzada ? state.porcentajeObra : 0;
+
+            document.getElementById('display-titulo').innerText = state.titulo;
+            document.getElementById('display-montoTotal').innerText = formatUSD(state.montoTotal);
+            document.getElementById('display-montoTotal2').innerText = formatUSD(state.montoTotal);
+            document.getElementById('display-tasaRetorno').innerText = state.tasaRetorno;
+            document.getElementById('display-montoRecaudado').innerText = formatUSD(state.montoRecaudado);
+            document.getElementById('display-cantInversores').innerText = state.cantInversores;
+            
+            document.getElementById('display-porcentajeInversion').innerText = porcentajeInversionDisplay;
+            document.getElementById('display-progressBarInversion').style.width = porcentajeInversionDisplay + '%';
+
+            document.getElementById('display-porcentajeObra').innerText = porcentajeObraReal;
+            document.getElementById('display-progressBarObra').style.width = porcentajeObraReal + '%';
+
+            const obraStatusMsg = document.getElementById('display-obraStatusText');
+            if (metaAlcanzada) {
+                obraStatusMsg.innerText = "Financiación completada. Obra en ejecución.";
+                obraStatusMsg.className = "text-xs text-emerald-400 font-semibold mt-0.5";
+            } else {
+                obraStatusMsg.innerText = "Se habilitará automáticamente al juntar los $280.000 USD.";
+                obraStatusMsg.className = "text-xs text-slate-400 font-normal mt-0.5";
+            }
+
+            const cupo = state.montoTotal - state.montoRecaudado;
+            document.getElementById('display-cupoRestante').innerText = formatUSD(cupo > 0 ? cupo : 0);
+            document.getElementById('lbl-unitCompleto').innerText = '$' + formatUSD(state.montoTotal) + ' USD Total';
+
+            if(state.fotoPortada) {
+                document.getElementById('heroSection').style.backgroundImage = `url('${state.fotoPortada}')`;
+            }
+
+            const gallery = document.getElementById('galleryContainer');
+            gallery.innerHTML = '';
+            state.fotosAvance.forEach((item) => {
+                if(item.url) {
+                    gallery.innerHTML += `
+                        <div class="glass-card rounded-2xl overflow-hidden border border-slate-700/60 transition hover:scale-[1.02] duration-300">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="${item.url}" class="w-full h-full object-cover">
+                                <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-emerald-400 text-xs font-semibold px-2.5 py-1 rounded-lg border border-slate-800">${item.fecha}</span>
+                            </div>
+                            <div class="p-4"><h4 class="font-bold text-white text-base">${item.titulo}</h4></div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', loadDataFromSheets);
+
+        function toggleSupervisorModal() {
+            const modal = document.getElementById('supervisorModal');
+            modal.classList.toggle('hidden');
+            if(!modal.classList.contains('hidden') && isSupervisorLoggedIn) fillSupervisorForm();
+        }
+
+        function loginSupervisor(e) {
+            e.preventDefault();
+            if(document.getElementById('supervisorPass').value === "admin123") {
+                isSupervisorLoggedIn = true;
+                document.getElementById('loginError').classList.add('hidden');
+                document.getElementById('supervisorLoginView').classList.add('hidden');
+                document.getElementById('supervisorPanelView').classList.remove('hidden');
+                document.getElementById('navSupervisorText').innerText = "Panel Activo";
+                fillSupervisorForm();
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
+
+        function logoutSupervisor() {
+            isSupervisorLoggedIn = false;
+            document.getElementById('supervisorLoginView').classList.remove('hidden');
+            document.getElementById('supervisorPanelView').classList.add('hidden');
+            toggleSupervisorModal();
+        }
+
+        function fillSupervisorForm() {
+            document.getElementById('cfg-titulo').value = state.titulo;
+            document.getElementById('cfg-fotoPortada').value = state.fotoPortada;
+            document.getElementById('cfg-montoTotal').value = state.montoTotal;
+            document.getElementById('cfg-tasaRetorno').value = state.tasaRetorno;
+            document.getElementById('cfg-montoRecaudado').value = state.montoRecaudado;
+            document.getElementById('cfg-cantInversores').value = state.cantInversores;
+            
+            const inputObra = document.getElementById('cfg-porcentajeObra');
+            const helpObra = document.getElementById('cfg-obraHelpText');
+            inputObra.value = state.porcentajeObra || 0;
+
+            if (state.montoRecaudado >= 280000) {
+                inputObra.disabled = false;
+                helpObra.innerText = "Financiación alcanzada. Podés actualizar el % libremente.";
+                helpObra.className = "text-[11px] text-emerald-400 mt-1";
+            } else {
+                inputObra.disabled = true;
+                helpObra.innerText = "Bloqueado. Requiere recaudar $280.000 USD.";
+                helpObra.className = "text-[11px] text-amber-400 mt-1";
+            }
+
+            document.getElementById('cfg-fotoAvance1').value = state.fotosAvance[0]?.url || '';
+            document.getElementById('cfg-fotoAvance2').value = state.fotosAvance[1]?.url || '';
+            document.getElementById('cfg-fotoAvance3').value = state.fotosAvance[2]?.url || '';
+        }
+
+        async function saveSupervisorChanges(e) {
+            e.preventDefault();
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Guardando...`;
+
+            const payload = {
+                type: "update_variables",
+                data: {
+                    titulo: document.getElementById('cfg-titulo').value,
+                    fotoPortada: document.getElementById('cfg-fotoPortada').value,
+                    montoTotal: document.getElementById('cfg-montoTotal').value,
+                    tasaRetorno: document.getElementById('cfg-tasaRetorno').value,
+                    montoRecaudado: document.getElementById('cfg-montoRecaudado').value,
+                    cantInversores: document.getElementById('cfg-cantInversores').value,
+                    porcentajeObra: document.getElementById('cfg-porcentajeObra').value,
+                    fotoAvance1: document.getElementById('cfg-fotoAvance1').value,
+                    fotoAvance2: document.getElementById('cfg-fotoAvance2').value,
+                    fotoAvance3: document.getElementById('cfg-fotoAvance3').value
+                }
+            };
+
+            try {
+                await fetch(https://script.google.com/macros/s/AKfycbwk5RjqorZlbrEfbn2O7tAsVWJ9RUxuCEqa8KPo0t6L7NZdYyRszk2op7Mtikub_J1L/exec, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert("¡Cambios guardados exitosamente!");
+                await loadDataFromSheets();
+                toggleSupervisorModal();
+            } catch (err) {
+                alert("Error al guardar en Google Sheets.");
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Guardar en Google Sheets`;
+            }
+        }
+
+        async function submitForm(event) {
+            event.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            const statusMsg = document.getElementById('statusMessage');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Guardando...`;
+
+            const payload = {
+                type: "new_lead",
+                data: {
+                    fecha: new Date().toLocaleString('es-AR'),
+                    nombre: document.getElementById('nombre').value,
+                    email: document.getElementById('email').value,
+                    telefono: document.getElementById('telefono').value,
+                    unidad: document.getElementById('selected_unit').value,
+                    monto: document.getElementById('monto_inversion').value,
+                    comentarios: document.getElementById('comentarios').value
+                }
+            };
+
+            try {
+                await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                statusMsg.className = "text-center text-sm p-4 rounded-xl font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 block";
+                statusMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> ¡Inscripción recibida con éxito!`;
+                document.getElementById('investmentForm').reset();
+            } catch (error) {
+                statusMsg.className = "text-center text-sm p-4 rounded-xl font-medium bg-rose-500/20 text-rose-300 border border-rose-500/30 block";
+                statusMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Ocurrió un error al enviar.`;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>Confirmar e Invertir</span> <i class="fa-solid fa-arrow-right"></i>`;
+            }
+        }
+    </script>
+</body>
+</html>
